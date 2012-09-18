@@ -10,14 +10,20 @@ require("util").puts(JSON.stringify({
   "repository": {"type": "git", "url": "http://github.com/mbostock/d3.git"},
   "main": "index.js",
   "browserify" : "index-browserify.js",
+  "jam": {
+    "main": "d3.v2.js",
+    "shim": {
+      "exports": "d3"
+    }
+  },
   "dependencies": {
     "jsdom": "0.2.14",
     "sizzle": "1.1.x"
   },
   "devDependencies": {
-    "uglify-js": "1.2.3",
+    "uglify-js": "1.3.3",
     "vows": "0.6.x",
-    "canvas": "0.12.1" // for node-canvas example
+    "canvas": "0.13.0" // for node-canvas example
   },
   "scripts": {"test": "./node_modules/vows/bin/vows"}
 }, null, 2));
