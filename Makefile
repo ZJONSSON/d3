@@ -1,16 +1,8 @@
 # See the README for installation instructions.
 
-NODE_PATH ?= ./node_modules
-JS_UGLIFY = $(NODE_PATH)/uglify-js/bin/uglifyjs
-JS_TESTER = $(NODE_PATH)/vows/bin/vows
-LOCALE ?= en_US
-
 all: \
-	d3.js \
-	d3.min.js \
-	component.json \
-	package.json
-
+	d3.js 
+	
 # Modify this rule to build your own custom release.
 
 .INTERMEDIATE d3.js: \
@@ -27,7 +19,7 @@ all: \
 	src/end.js
 
 d3.core.js: \
-	src/core/format-$(LOCALE).js \
+	src/core/format-locale.js \
 	src/compat/date.js \
 	src/compat/style.js \
 	src/core/core.js \
@@ -221,7 +213,7 @@ d3.dsv.js: \
 
 d3.time.js: \
 	src/time/time.js \
-	src/time/format-$(LOCALE).js \
+	src/time/format-locale.js \
 	src/time/format.js \
 	src/time/format-utc.js \
 	src/time/format-iso.js \
@@ -233,8 +225,7 @@ d3.time.js: \
 	src/time/week.js \
 	src/time/month.js \
 	src/time/year.js \
-	src/time/scale.js \
-	src/time/scale-utc.js
+	src/time/scale.js 
 
 d3.geom.js: \
 	src/geom/geom.js \
@@ -244,42 +235,8 @@ d3.geom.js: \
 	src/geom/delaunay.js \
 	src/geom/quadtree.js
 
-test: all
-	@$(JS_TESTER)
-
-benchmark: all
-	@node test/geo/benchmark.js
-
-%.min.js: %.js Makefile
-	@rm -f $@
-	$(JS_UGLIFY) $< -c -m -o $@
 
 d3%js: Makefile
 	@rm -f $@
-	@cat $(filter %.js,$^) > $@.tmp
-	$(JS_UGLIFY) $@.tmp -b indent-level=2 -o $@
-	@rm $@.tmp
+	@cat $(filter %.js,$^) > $@
 	@chmod a-w $@
-
-component.json: src/component.js
-	@rm -f $@
-	node src/component.js > $@
-	@chmod a-w $@
-
-package.json: src/package.js
-	@rm -f $@
-	node src/package.js > $@
-	@chmod a-w $@
-
-src/core/format-$(LOCALE).js: src/locale.js src/core/format-locale.js
-	LC_NUMERIC=$(LOCALE) locale -ck LC_NUMERIC | node src/locale.js src/core/format-locale.js > $@
-
-src/time/format-$(LOCALE).js: src/locale.js src/time/format-locale.js
-	LC_TIME=$(LOCALE) locale -ck LC_TIME | node src/locale.js src/time/format-locale.js > $@
-
-.INTERMEDIATE: \
-	src/core/format-$(LOCALE).js \
-	src/time/format-$(LOCALE).js
-
-clean:
-	rm -f d3*.js package.json component.json

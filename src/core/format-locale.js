@@ -1,3 +1,3 @@
-var d3_format_decimalPoint = {decimal_point},
-    d3_format_thousandsSeparator = {thousands_sep},
-    d3_format_grouping = {grouping};
+ var d3_format_decimalPoint = ".", 
+    d3_format_thousandsSeparator = ",", 
+    d3_format_grouping = [ 3, 3 ];
