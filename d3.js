@@ -118,7 +118,7 @@ d3 = function() {
       this[d3_set_prefix + value] = value;
       return value;
     },
-    delete: function(value) {
+    remove: function(value) {
       value = d3_set_prefix + value;
       return value in this && delete this[value];
     },
