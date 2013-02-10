@@ -115,10 +115,10 @@ d3 = function() {
       return d3_set_prefix + value in this;
     },
     add: function(value) {
-      this[d3_set_prefix + value] = true;
+      this[d3_set_prefix + value] = value;
       return value;
     },
-    remove: function(value) {
+    delete: function(value) {
       value = d3_set_prefix + value;
       return value in this && delete this[value];
     },
@@ -132,7 +132,7 @@ d3 = function() {
     forEach: function(f) {
       for (var value in this) {
         if (value.charCodeAt(0) === d3_set_prefixCode) {
-          f.call(this, value.substring(1));
+          f.call(this, this[value]);
         }
       }
     }
